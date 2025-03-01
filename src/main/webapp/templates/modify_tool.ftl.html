@@ -1,0 +1,73 @@
+<div class="form-container">
+    <!-- Add New Tool -->
+    <h2>Add New Tool</h2>
+    <form method="post" action="modify_tool" class="styled-form">
+        <p>
+            <label for="add_tool_name">Tool Name:</label>
+            <input type="text" id="add_tool_name" name="tool_name" required>
+        </p>
+        <input type="hidden" name="form_input" value="add_tool">
+        <p>
+            <button type="submit" class="form-button">Add Tool</button>
+        </p>
+    </form>
+
+    <hr>
+
+    <!-- Modify Existing Tool -->
+    <h2>Modify Existing Tool</h2>
+    <form method="post" action="modify_tool" class="styled-form">
+        <p>
+            <label for="modify_tool_name_dropdown">Select Tool to Modify:</label>
+            <select id="modify_tool_name_dropdown" name="tool_key" required>
+                <option value="">Select a Tool</option>
+                <#list tools as tool>
+                    <option value="${tool.key}" data-tool-name="${tool.getToolName()}">
+                        ${tool.getToolName()}
+                    </option>
+                </#list>
+            </select>
+        </p>
+        <p>
+            <label for="modify_new_tool_name">New Tool Name:</label>
+            <input type="text" id="modify_new_tool_name" name="tool_name" required>
+        </p>
+        <input type="hidden" name="form_input" value="modify_tool">
+        <p>
+            <button type="submit" class="form-button">Modify Tool</button>
+        </p>
+    </form>
+
+    <hr>
+
+    <!-- Delete Existing Tool -->
+    <h2>Delete Tool</h2>
+    <form method="post" action="modify_tool" class="styled-form">
+        <p>
+            <label for="delete_tool_name">Select Tool to Delete:</label>
+            <select id="delete_tool_name" name="tool_key" required>
+                <option value="">Select a Tool</option>
+                <#list tools as tool>
+                    <option value="${tool.key}">${tool.getToolName()}</option>
+                </#list>
+            </select>
+        </p>
+        <input type="hidden" name="form_input" value="delete_tool">
+        <p>
+            <button type="submit" class="form-button" onclick="return confirm('Are you sure you want to delete this tool?')">Delete Tool</button>
+        </p>
+    </form>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function () {
+    $('#modify_tool_name_dropdown').on('change', function () {
+        const selectedOption = $(this).find(':selected');
+        const toolName = selectedOption.data('tool-name') || '';
+        $('#modify_new_tool_name').val(toolName);
+    });
+});
+</script>
+
+
+<link rel="stylesheet" href="style/forms.css">

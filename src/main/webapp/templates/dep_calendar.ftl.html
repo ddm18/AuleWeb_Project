@@ -1,0 +1,43 @@
+<div id="main_page_input">
+    <!-- Buttons Column -->
+    <div id="buttons-container">
+        <button onclick="showCalendar()">Show Calendar</button>
+        <button onclick="loadCurrentEvents('${department?js_string}')">Show All Current Events</button>
+        <button id="showCsvFormButton" onclick="toggleCsvForm()">Download CSV</button>
+    </div>
+    
+    <!-- Load Day Form -->
+    <form id="loadDayForm" onsubmit="handleFormSubmit(event)">
+        <label for="search-day">Search the events by date:</label>
+        <input type="date" id="search-day" name="search_day" required />
+        <button type="submit">Submit</button>
+    </form>
+    
+    <!-- CSV Download Form -->
+    <form id="csvForm" action="download-csv" method="get" style="display: none;">
+        <label for="course">Select Course (Optional):</label>
+        <select id="course" name="course">
+            <option value="">Select a course</option>
+            <#list courses as course>
+                <option value="${course.getCourseName()}">${course.getCourseName()}</option>
+            </#list>
+        </select>
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date" required>
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date" required>
+        <button type="submit">Download Events CSV</button>
+    </form>
+</div>
+
+<div id="content"></div>
+
+<!-- Calendar Content Section -->
+<div id="calendar-section">
+    <#include "week_events.ftl.html">
+</div>
+
+<link rel="stylesheet" href="style/dep_calendar.css">
+<script src="./javascript/loadContentEvents.js"></script>
+<script src="./javascript/showCalendar.js"></script>
+<script src="./javascript/showdownloadcsv.js"></script>

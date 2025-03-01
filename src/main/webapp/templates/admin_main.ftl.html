@@ -1,0 +1,26 @@
+<div class="admin-buttons-container">
+    <a href="modify_course" class="admin-button">Manage Courses</a>
+    <a href="modify_tool" class="admin-button">Manage Tools</a>
+    <a href="modify_type" class="admin-button">Manage Types</a>
+    <a href="modify_location" class="admin-button">Manage Locations</a>
+    <a href="modify_classroom_group" class="admin-button">Manage Departments</a>
+    <a href="modify_manager" class="admin-button">Manage Managers</a>
+    <a href="modify_classroom" class="admin-button">Manage Classroom</a>
+    <a href="modify_event" class="admin-button">Manage Event</a>
+    <a href="modify_user" class="admin-button">Manage User</a>
+</div>
+
+<hr>
+
+<h2>Download Classroom Data as CSV</h2>
+<form method="get" action="download-csv2">
+    <p>
+        <label for="classroom_name">Classroom Name (optional):</label>
+        <input type="text" id="classroom_name" name="classroom_name" placeholder="Enter classroom name">
+    </p>
+    <p>
+        <button type="submit" class="admin-button">Download CSV</button>
+    </p>
+</form>
+
+<link rel="stylesheet" href="style/admin_styles.css">

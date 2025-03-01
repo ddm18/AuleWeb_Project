@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Sample Application</title>
+        <link rel="stylesheet" href="style/normalize.css" type="text/css">
+        <link rel="stylesheet" href="style/default.css" type="text/css">
+        <link rel="stylesheet" href="style/calendar.css" type="text/css">
+        <link rel="stylesheet" href="style/current_calendar.css" type="text/css">
+        <link rel="stylesheet" href="style/clevent.css" type="text/css">
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+                integrity="sha384-UG8ao2jwOWB7/oDdObZc6ItJmwUkR/PfMyt9Qs5AwX7PsnYn1CRKCTWyncPTWvaS"
+                crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <div class="page-container">
+            <!-- Header -->
+            <#if (show_outline?? && show_outline) || !show_outline??>
+                <header>
+                    <#include "outline_header.ftl.html">
+                </header>
+            </#if>
+
+            <!-- Content -->
+            <div class="content">
+                <#include content_tpl>
+            </div>
+
+            <!-- Footer -->
+            <#if (show_outline?? && show_outline) || !show_outline??>
+                <footer>
+                    <#include "outline_footer.ftl.html">
+                </footer>
+            </#if>
+        </div>
+    </body>
+</html>

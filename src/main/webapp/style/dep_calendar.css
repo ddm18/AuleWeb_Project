@@ -1,0 +1,93 @@
+/* General styles */
+#main_page_input {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 20px;
+    align-items: stretch;
+    transition: height 0.3s ease;
+}
+
+/* Buttons Column */
+#buttons-container,
+#loadDayForm,
+#csvForm {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 150px; /* Ensure equal height */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Hide CSV Form */
+#csvForm {
+    opacity: 0;
+    transform: scale(0.95);
+    pointer-events: none;
+}
+
+/* Show CSV Form */
+#csvForm.visible {
+    display: flex;
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+/* Form Inputs */
+#loadDayForm input,
+#csvForm input,
+#csvForm select {
+    width: auto; /* Adjust width to content */
+    max-width: 100%; /* Ensure it doesn’t overflow */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    flex: 0; /* Prevent inputs from stretching */
+    box-sizing: border-box; /* Include padding and border in width calculation */
+}
+
+/* Form Layout */
+#csvForm label,
+#loadDayForm label {
+    font-weight: bold;
+    margin: 8px 0 4px;
+}
+
+#csvForm .form-group,
+#loadDayForm .form-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+#csvForm .form-group input,
+#csvForm .form-group select {
+    flex: 1 0 48%; /* Take up half the width if space allows */
+}
+
+/* Buttons */
+#buttons-container button,
+#loadDayForm button,
+#csvForm button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+#buttons-container button:hover,
+#loadDayForm button:hover,
+#csvForm button:hover {
+    background-color: #0056b3;
+}

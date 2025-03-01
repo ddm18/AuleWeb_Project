@@ -1,0 +1,84 @@
+<div class="form-container">
+    <!-- Add New Type -->
+    <h2>Add New Type</h2>
+    <form method="post" action="modify_type" class="styled-form">
+        <p>
+            <label for="add_type_name">Type Name:</label>
+            <input type="text" id="add_type_name" name="type_name" required>
+        </p>
+        <input type="hidden" name="form_input" value="add_type">
+        <p>
+            <button type="submit" class="form-button">Add Type</button>
+        </p>
+    </form>
+
+    <hr>
+
+    <!-- Modify Existing Type -->
+    <h2>Modify Existing Type</h2>
+    <form method="post" action="modify_type" class="styled-form">
+        <p>
+            <label for="modify_type_name_dropdown">Select Type to Modify:</label>
+            <select id="modify_type_name_dropdown" name="type_key" required>
+                <option value="">Select a Type</option>
+                <#list types as type>
+                    <option 
+                        value="${type.key}" 
+                        data-type-name="${type.getEventTypeName()?js_string}">
+                        ${type.getEventTypeName()}
+                    </option>
+                </#list>
+            </select>
+        </p>
+        <p>
+            <label for="modify_new_type_name">New Type Name:</label>
+            <input type="text" id="modify_new_type_name" name="type_name" required>
+        </p>
+        <input type="hidden" name="form_input" value="modify_type">
+        <p>
+            <button type="submit" class="form-button">Modify Type</button>
+        </p>
+    </form>
+
+    <hr>
+
+    <!-- Delete Existing Type -->
+    <h2>Delete Type</h2>
+    <form method="post" action="modify_type" class="styled-form">
+        <p>
+            <label for="delete_type_name">Select Type to Delete:</label>
+            <select id="delete_type_name" name="type_key" required>
+                <option value="">Select a Type</option>
+                <#list types as type>
+                    <option value="${type.key}">${type.getEventTypeName()}</option>
+                </#list>
+            </select>
+        </p>
+        <input type="hidden" name="form_input" value="delete_type">
+        <p>
+            <button type="submit" class="form-button" onclick="return confirm('Are you sure you want to delete this type?')">Delete Type</button>
+        </p>
+    </form>
+</div>
+
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', function () {
+    const typeDropdown = document.getElementById('modify_type_name_dropdown');
+    const newTypeNameInput = document.getElementById('modify_new_type_name');
+
+    // Listen for changes on the dropdown
+    typeDropdown.addEventListener('change', function () {
+        // Get the selected option
+        const selectedOption = typeDropdown.options[typeDropdown.selectedIndex];
+
+        // Extract the type name from the data-* attribute
+        const typeName = selectedOption.getAttribute('data-type-name') || '';
+
+        // Populate the new type name field
+        newTypeNameInput.value = typeName;
+    });
+});
+</script>
+
+
+<link rel="stylesheet" href="style/forms.css">

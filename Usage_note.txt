@@ -1,0 +1,146 @@
+A localhost mysql (or external by modifying the project) on port 3306
+schema such as the one described in the pdf must be created.
+The following code is to create that in mysql:
+
+CREATE DATABASE `AuleWeb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+
+-- AuleWeb.classroom_group definition
+
+CREATE TABLE `classroom_group` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `group_name` varchar(100) NOT NULL,
+  `groupDescription` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `version` bigint DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) 
+
+-- AuleWeb.Course definition
+
+CREATE TABLE `Course` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `course_name` varchar(100) NOT NULL,
+  `version` bigint NOT NULL,
+  PRIMARY KEY (`id`)
+)
+
+-- AuleWeb.Location definition
+
+CREATE TABLE `Location` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `place` varchar(100) NOT NULL,
+  `building` varchar(100) NOT NULL,
+  `floor` varchar(100) NOT NULL,
+  `version` bigint DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+
+-- AuleWeb.Manager definition
+
+CREATE TABLE `Manager` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `manager_name` varchar(100) NOT NULL,
+  `manager_email` varchar(255) NOT NULL,
+  `version` bigint NOT NULL,
+  PRIMARY KEY (`id`)
+)
+
+-- AuleWeb.tool definition
+
+CREATE TABLE `tool` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `tool_name` varchar(100) NOT NULL,
+  `version` bigint DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+
+-- AuleWeb.`Type` definition
+
+CREATE TABLE `Type` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `event_type_name` varchar(100) NOT NULL,
+  `version` bigint DEFAULT NULL,
+  PRIMARY KEY (`id`)
+)
+
+-- AuleWeb.users definition
+
+CREATE TABLE `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(999) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `version` bigint NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+)
+
+-- AuleWeb.Classroom definition
+
+CREATE TABLE `Classroom` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `capacity` int DEFAULT NULL,
+  `manager_email` varchar(255) DEFAULT NULL,
+  `n_electric_sockets` int DEFAULT NULL,
+  `n_internet_sockets` int DEFAULT NULL,
+  `notes` text,
+  `group_id` int DEFAULT NULL,
+  `location_id` int DEFAULT NULL,
+  `classroom_name` varchar(100) DEFAULT NULL,
+  `version` bigint NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `classroom_ibfk_1` (`group_id`),
+  KEY `classroom_ibfk_2` (`location_id`),
+  CONSTRAINT `classroom_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `classroom_group` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `classroom_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `Location` (`id`) ON DELETE SET NULL
+)
+
+-- AuleWeb.ClassroomTool definition
+
+CREATE TABLE `ClassroomTool` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `classroom_id` int NOT NULL,
+  `tool_id` int NOT NULL,
+  `version` bigint NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_classroom_tool` (`classroom_id`,`tool_id`),
+  KEY `classroomtools_ibfk_2` (`tool_id`),
+  CONSTRAINT `classroomtool_ibfk_1` FOREIGN KEY (`classroom_id`) REFERENCES `Classroom` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `classroomtool_ibfk_2` FOREIGN KEY (`tool_id`) REFERENCES `tool` (`id`) ON DELETE CASCADE
+)
+
+-- AuleWeb.Event definition
+
+CREATE TABLE `Event` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `date` date DEFAULT NULL,
+  `start_time` time DEFAULT NULL,
+  `end_time` time DEFAULT NULL,
+  `description` text,
+  `event_manager_id` int DEFAULT NULL,
+  `event_type_id` int DEFAULT NULL,
+  `course_id` int DEFAULT NULL,
+  `master_id` int DEFAULT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `classroom_id` int DEFAULT NULL,
+  `version` bigint NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `events_ibfk_3` (`course_id`),
+  KEY `FK_Event_Type` (`event_type_id`),
+  KEY `FK_Event_Manager` (`event_manager_id`),
+  KEY `FK_Event_Classroom` (`classroom_id`),
+  CONSTRAINT `event_ibfk_3` FOREIGN KEY (`course_id`) REFERENCES `Course` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `FK_Event_Classroom` FOREIGN KEY (`classroom_id`) REFERENCES `Classroom` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `FK_Event_Manager` FOREIGN KEY (`event_manager_id`) REFERENCES `Manager` (`id`) ON DELETE SET NULL,
+  CONSTRAINT `FK_Event_Type` FOREIGN KEY (`event_type_id`) REFERENCES `Type` (`id`) ON DELETE SET NULL
+)
+
+IMPORTANT:
+passwords are encrypted and decrypted during login and registration.
+To access the website run this sql script.
+Adding a admin user in users with username "user3" and pw "pw3":
+
+INSERT INTO AuleWeb.users
+(id, username, password, version)
+VALUES(5, 'user3', '0f5d3acadb1537293941b1b84c3eaa697a296e0f0595f47596f2dc5b2e82780d972bb225a6979d78f8717a9da2cd2827', 0);
+
+The homepage is on link:
+http://localhost:8080/Java_Example_BaseApplicationMVC/homepage

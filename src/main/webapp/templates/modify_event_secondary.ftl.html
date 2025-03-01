@@ -1,0 +1,163 @@
+<div class="form-container">
+    <!-- Modify Existing Event Form -->
+    <h2>Modify Existing Event</h2>
+    <form method="post" action="modify_event" class="styled-form">
+        <input type="hidden" name="form_input" value="modify_event">
+        <p>
+            <label for="event_id_modify">Select Event:</label>
+            <select id="event_id_modify" name="event_id" required>
+                <#list events as event>
+                    <option 
+                        value="${event.key}" 
+                        data-event-name="${event.getName()?js_string}" 
+                        data-event-date="${event.getDate()}" 
+                        data-start-time="${event.getStartTime()}" 
+                        data-end-time="${event.getEndTime()}" 
+                        data-description="${event.getDescription()?js_string}" 
+                        data-classroom-id="${event.getClassroom().getKey()}" 
+                        data-event-type="${event.getEventType().getKey()}"
+                        <#if event.getCourse()?has_content>
+                            data-course-id="${event.getCourse().getKey()}"
+                        <#else>
+                            data-course-id=""
+                        </#if>
+                        data-manager-id="${event.getEventManager().getKey()}">
+                        ${event.getName()} (Date: ${event.getDate()})
+                    </option>
+                </#list>
+            </select>
+        </p>
+        <p>
+            <label for="event_name_modify">New Event Name:</label>
+            <input type="text" id="event_name_modify" name="event_name" required>
+        </p>
+        <p>
+            <label for="event_date_modify">New Event Date:</label>
+            <input type="date" id="event_date_modify" name="event_date" required>
+        </p>
+        <p>
+            <label for="start_time_modify">New Start Time:</label>
+            <input type="time" id="start_time_modify" name="start_time" required>
+        </p>
+        <p>
+            <label for="end_time_modify">New End Time:</label>
+            <input type="time" id="end_time_modify" name="end_time" required>
+        </p>
+        <p>
+            <label for="description_modify">New Description:</label>
+            <textarea id="description_modify" name="description" rows="4" cols="50"></textarea>
+        </p>
+        <p>
+            <label for="classroom_id_modify">New Classroom:</label>
+            <select id="classroom_id_modify" name="classroom_id" required>
+                <#list classrooms as classroom>
+                    <option value="${classroom.key}">${classroom.getClassroomName()}</option>
+                </#list>
+            </select>
+        </p>
+        <p>
+            <label for="event_type_id_modify">New Event Type:</label>
+            <select id="event_type_id_modify" name="event_type_id" required>
+                <#list eventTypes as type>
+                    <option value="${type.key}" data-event-type="${type.getEventTypeName()?lower_case}">
+                        ${type.getEventTypeName()}
+                    </option>
+                </#list>
+            </select>
+        </p>
+        <p id="course_field_modify" style="display: none;">
+            <label for="course_id_modify">New Course (Optional):</label>
+            <select id="course_id_modify" name="course_id">
+                <option value="" selected>None</option>
+                <#list courses as course>
+                    <option value="${course.key}">${course.getCourseName()}</option>
+                </#list>
+            </select>
+        </p>
+        <p>
+            <label for="event_manager_id_modify">New Event Manager:</label>
+            <select id="event_manager_id_modify" name="event_manager_id" required>
+                <#list eventManagers as manager>
+                    <option value="${manager.key}">${manager.getManagerName()}</option>
+                </#list>
+            </select>
+        </p>
+        <p>
+            <label for="recurrence_checkbox">Apply Transformation to Recurrent Events:</label>
+            <input type="checkbox" id="recurrence_checkbox" name="recurrence_checkbox">
+        </p>
+        <button type="submit" class="form-button">Modify Event</button>
+    </form>
+
+    <hr>
+
+    <!-- Delete Event Form -->
+    <h2>Delete Event</h2>
+    <form method="post" action="modify_event" class="styled-form">
+        <input type="hidden" name="form_input" value="delete_event">
+        <p>
+            <label for="event_id_delete">Select Event:</label>
+            <select id="event_id_delete" name="event_id" required>
+                <#list events as event>
+                    <option value="${event.key}">
+                        ${event.getName()} (Date: ${event.getDate()})
+                    </option>
+                </#list>
+            </select>
+        </p>
+        <p>
+            <label for="recurrence_checkbox_delete">Apply Transformation to Recurrent Events:</label>
+            <input type="checkbox" id="recurrence_checkbox_delete" name="recurrence_checkbox_delete">
+        </p>
+        <button type="submit" class="form-button">Delete Event</button>
+    </form>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function () {
+    const courseFieldModify = $('#course_field_modify');
+    const eventTypeDropdown = $('#event_type_id_modify');
+
+    // Define the event types that should display the course dropdown
+    const eventTypesForCourses = ['lecture', 'final exam', 'partial exam'];
+
+    // Show or hide the course dropdown based on the selected event type
+    function toggleCourseField() {
+        const selectedType = eventTypeDropdown.find(':selected').data('event-type');
+        if (eventTypesForCourses.includes(selectedType)) {
+            courseFieldModify.show();
+            $('#course_id_modify').attr('required', true);
+        } else {
+            courseFieldModify.hide();
+            $('#course_id_modify').removeAttr('required'); // Remove required if hidden
+        }
+    }
+
+    // Attach change event listener to the event type dropdown
+    eventTypeDropdown.on('change', toggleCourseField);
+
+    // Auto-fill the form when an event is selected
+    const eventDropdown = $('#event_id_modify');
+    eventDropdown.on('change', function () {
+        const selectedOption = $(this).find(':selected');
+
+        // Populate the fields with data from the selected event
+        $('#event_name_modify').val(selectedOption.data('event-name'));
+        $('#event_date_modify').val(selectedOption.data('event-date'));
+        $('#start_time_modify').val(selectedOption.data('start-time'));
+        $('#end_time_modify').val(selectedOption.data('end-time'));
+        $('#description_modify').val(selectedOption.data('description'));
+        $('#classroom_id_modify').val(selectedOption.data('classroom-id'));
+        $('#event_type_id_modify').val(selectedOption.data('event-type'));
+        $('#course_id_modify').val(selectedOption.data('course-id'));
+        $('#event_manager_id_modify').val(selectedOption.data('manager-id'));
+
+        // Update course field visibility based on the selected event type
+        toggleCourseField();
+    });
+
+    // Ensure the correct state on page load
+    toggleCourseField();
+});
+</script>
+<link rel="stylesheet" href="style/forms.css">

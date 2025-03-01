@@ -1,0 +1,119 @@
+<!-- Assign the dynamic list of days -->
+<#assign days = WeekDays>
+<#assign timeSlots = ["08:00", "09:30", "11:00", "12:30", "14:00", "15:30", "17:00", "18:30", "20:00"]>
+
+<!-- Previous and Next Week Navigation -->
+<#assign previous_week = actual_week?number - 1>
+<#assign next_week = actual_week?number + 1>
+
+<#assign previous_week_href_ = "" />
+<#if (actual_course?exists) && (actual_course?length > 0)>
+    <#assign previous_week_href_ = "department?groupName=${department}&week=${previous_week}&course=${actual_course}" />
+<#else>
+    <#assign previous_week_href_ = "department?groupName=${department}&week=${previous_week}&classroom_name=${actual_classroom}" />
+</#if>
+
+<a href="${previous_week_href_}">
+    <button>Previous Week</button>
+</a>
+
+<#assign next_week_href_ = "" />
+<#if (actual_course?exists) && (actual_course?length > 0)>
+    <#assign next_week_href_ = "department?groupName=${department}&week=${next_week}&course=${actual_course}" />
+<#else>
+    <#assign next_week_href_ = "department?groupName=${department}&week=${next_week}&classroom_name=${actual_classroom}" />
+</#if>
+
+<a href="${next_week_href_}">
+    <button>Next Week</button>
+</a>
+
+<!-- Classroom Dropdown -->
+<select id="redirect-select" onchange="window.location.href=this.value;">
+    <option disabled selected>Select a classroom</option>
+    <#list classrooms as cl>
+        <option value="department?groupName=${department}&week=${actual_week}&classroom_name=${cl.classroomName}"
+                <#if actual_classroom?exists && (cl.classroomName == actual_classroom)>selected</#if>>
+            ${cl.classroomName}
+        </option>
+    </#list>
+</select>
+
+<!-- Course Dropdown -->
+<select id="redirect-select" onchange="window.location.href=this.value;">
+    <option disabled selected>Select a course</option>
+    <#list courses as course>
+        <option value="department?groupName=${department}&week=${actual_week}&course=${course.courseName}"
+                <#if actual_course?exists && (course.courseName == actual_course)>selected</#if>>
+            ${course.courseName}
+        </option>
+    </#list>
+</select>
+
+<!-- Calendar Table Structure -->
+<div class="calendar-container" style="position: relative;">
+    <table class="calendar">
+        <thead>
+		    <tr>
+		        <th>Time</th>
+		        <#list days as day>
+		            <th class="day-slot">
+		                <#assign parts = day?split(" ")>
+		                <span>${parts[0]}</span><br/>
+		                <span>${parts[1]} ${parts[2]}</span>
+		            </th>
+		        </#list>
+		    </tr>
+        </thead>
+        <tbody>
+            <#list timeSlots as time>
+                <tr>
+                    <td class="time-slot">${time}</td>
+                    <#list days as day>
+                        <td class="day-cell" data-day="${day}" data-time="${time}"></td>
+                    </#list>
+                </tr>
+            </#list>
+        </tbody>
+    </table>
+
+    <!-- Event Overlay Section -->
+    <div class="events-overlay">
+        <#list events as event>
+            <!-- Calculate the day of the week from event.date -->
+            <#assign dayOfWeek = event.date?date("yyyy-MM-dd")?string("EEEE dd MMM")>
+
+            <!-- Extract hour and minute from startTime and endTime -->
+            <#assign startHour = event.startTime?substring(0, 2)?number>
+            <#assign startMinute = event.startTime?substring(3, 5)?number>
+            <#assign endHour = event.endTime?substring(0, 2)?number>
+            <#assign endMinute = event.endTime?substring(3, 5)?number>
+
+            <!-- Find the index of the day in the dynamic days list -->
+            <#assign dayIndex = days?seq_index_of(dayOfWeek)>
+            <#if dayIndex != -1>
+                <#assign topPosition = 34 + ((((startHour - 8) * 60 / 90) + startMinute / 90) * 63)>
+                <#assign height = ((endHour - startHour) * 60 + (endMinute - startMinute)) * 1>
+                <#assign timeColumnOffset = 3.8>
+                <#assign dayWidth = (96.2 / 7)>
+                <#assign leftPosition = timeColumnOffset + (dayIndex * dayWidth)>
+
+                <!-- Event overlay with absolute positioning -->
+                <div class="event" onclick="OpenEventDetails(${event.getKey()});" 
+                     style="
+                        top: ${topPosition}px;
+                        left: ${leftPosition}%; 
+                        height: ${height}px;
+                        width: 193px;
+                        z-index: 10;">
+                    <strong>${event.name!}</strong><br/>
+                    <small>${event.startTime} - ${event.endTime}</small>
+                    <small>${event.date}</small>
+                </div>
+            </#if>
+        </#list>
+    </div>
+</div>
+
+
+<script src="./javascript/event-details.js"></script>

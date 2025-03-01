@@ -1,0 +1,24 @@
+<div class="event-details">
+    <h2 id="event-name">${event.name}</h2>
+
+    <a href="${BackURL}" class="button">Go back</a>
+
+    <div class="event-info">
+        <p><strong>Date:</strong> ${event.date}</p>
+        <p><strong>Start Time:</strong> ${event.startTime}</p>
+        <p><strong>End Time:</strong> ${event.endTime}</p>
+        <p><strong>Description:</strong> ${event.description}</p>
+        <p><strong>Event Type:</strong> ${event.getEventType().eventTypeName}</p>
+        <p><strong>Event Manager Name:</strong> ${event.getEventManager().managerName}</p>
+        <p><strong>Event Manager Email:</strong> ${event.getEventManager().managerEmail}</p>
+        <#if event.course?exists>
+            <p><strong>Course:</strong> ${event.getCourse().courseName}</p>
+        </#if>
+        <p><strong>Classroom:</strong> ${event.getClassroom().classroomName}</p>
+        <p><strong>Classroom Building:</strong> ${event.getClassroom().getLocation().building}</p>
+        <p><strong>Classroom Floor:</strong> ${event.getClassroom().getLocation().floor}</p>
+        <p><strong>Classroom Section:</strong> ${event.getClassroom().getLocation().place}</p>
+    </div>
+</div>
+
+<link rel="stylesheet" href="style/event-details.css">

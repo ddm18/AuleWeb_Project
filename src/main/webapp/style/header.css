@@ -1,0 +1,38 @@
+/* Header Row Styling */
+.header-row {
+    display: flex;
+    align-items: center; /* Align items vertically in the center */
+    padding: 10px;
+    border-bottom: 1px solid #ccc; /* Optional: Add a bottom border */
+}
+
+/* Title Styling */
+.header-row h1 {
+    font-size: 24px;
+    margin: 0; /* Remove default margin */
+    flex: 1; /* Take up remaining space to push other items to the right */
+}
+
+/* Homepage Link Styling */
+.homepage-link {
+    font-size: 18px;
+    text-decoration: none;
+    color: #007bff;
+    margin-right: 20px; /* Add spacing between the link and the icon */
+}
+
+.homepage-link:hover {
+    text-decoration: underline;
+}
+
+/* Icon Wrapper Styling */
+.icon-wrapper {
+    position: relative;
+    cursor: pointer;
+    margin-left: 20px; /* Add spacing to the left of the icon */
+    padding: 5px; /* Add padding around the icon */
+}
+
+.icon-wrapper i {
+    font-size: 3rem; /* Adjust font size for the icon */
+}

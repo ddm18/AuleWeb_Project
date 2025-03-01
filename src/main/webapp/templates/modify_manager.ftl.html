@@ -1,0 +1,91 @@
+<div class="form-container">
+    <!-- Add New Manager -->
+    <h2>Add New Manager</h2>
+    <form method="post" action="modify_manager" class="styled-form">
+        <p>
+            <label for="add_manager_name">Manager Name:</label>
+            <input type="text" id="add_manager_name" name="manager_name" required>
+        </p>
+        <p>
+            <label for="add_manager_email">Manager Email:</label>
+            <input type="email" id="add_manager_email" name="manager_email" required>
+        </p>
+        <input type="hidden" name="form_input" value="add_manager">
+        <p>
+            <button type="submit" class="form-button">Add Manager</button>
+        </p>
+    </form>
+
+    <hr>
+
+    <!-- Modify Existing Manager -->
+    <h2>Modify Existing Manager</h2>
+    <form method="post" action="modify_manager" class="styled-form">
+        <p>
+            <label for="modify_manager_dropdown">Select Manager to Modify:</label>
+            <select id="modify_manager_dropdown" name="manager_key" required>
+                <option value="">Select a Manager</option>
+                <#list managers as manager>
+                    <option 
+                        value="${manager.key}" 
+                        data-manager-name="${manager.getManagerName()?js_string}" 
+                        data-manager-email="${manager.getManagerEmail()?js_string}">
+                        ${manager.getManagerName()} (${manager.getManagerEmail()})
+                    </option>
+                </#list>
+            </select>
+        </p>
+        <p>
+            <label for="modify_manager_name">New Manager Name:</label>
+            <input type="text" id="modify_manager_name" name="manager_name" required>
+        </p>
+        <p>
+            <label for="modify_manager_email">New Manager Email:</label>
+            <input type="email" id="modify_manager_email" name="manager_email" required>
+        </p>
+        <input type="hidden" name="form_input" value="modify_manager">
+        <p>
+            <button type="submit" class="form-button">Modify Manager</button>
+        </p>
+    </form>
+
+    <hr>
+
+    <!-- Delete Manager -->
+    <h2>Delete Manager</h2>
+    <form method="post" action="modify_manager" class="styled-form">
+        <p>
+            <label for="delete_manager_dropdown">Select Manager to Delete:</label>
+            <select id="delete_manager_dropdown" name="manager_key" required>
+                <option value="">Select a Manager</option>
+                <#list managers as manager>
+                    <option value="${manager.key}">${manager.getManagerName()} (${manager.getManagerEmail()})</option>
+                </#list>
+            </select>
+        </p>
+        <input type="hidden" name="form_input" value="delete_manager">
+        <p>
+            <button type="submit" class="form-button" onclick="return confirm('Are you sure you want to delete this manager?')">Delete Manager</button>
+        </p>
+    </form>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function () {
+    // Listen for changes on the dropdown
+    $('#modify_manager_dropdown').on('change', function () {
+        // Get the selected option
+        const selectedOption = $(this).find(':selected');
+        
+        // Extract manager details from data-* attributes
+        const managerName = selectedOption.data('manager-name') || '';
+        const managerEmail = selectedOption.data('manager-email') || '';
+
+        // Populate the form fields
+        $('#modify_manager_name').val(managerName);
+        $('#modify_manager_email').val(managerEmail);
+    });
+});
+</script>
+
+<link rel="stylesheet" href="style/forms.css">

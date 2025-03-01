@@ -1,0 +1,101 @@
+<div class="form-container">
+    <!-- Add New Location -->
+    <h2>Add New Location</h2>
+    <form method="post" action="modify_location" class="styled-form">
+        <p>
+            <label for="add_place">Place:</label>
+            <input type="text" id="add_place" name="place" required>
+        </p>
+        <p>
+            <label for="add_building">Building:</label>
+            <input type="text" id="add_building" name="building" required>
+        </p>
+        <p>
+            <label for="add_floor">Floor:</label>
+            <input type="text" id="add_floor" name="floor" required>
+        </p>
+        <input type="hidden" name="form_input" value="add_location">
+        <p>
+            <button type="submit" class="form-button">Add Location</button>
+        </p>
+    </form>
+
+    <hr>
+
+    <!-- Modify Existing Location -->
+    <h2>Modify Existing Location</h2>
+    <form method="post" action="modify_location" class="styled-form">
+        <p>
+            <label for="modify_location_dropdown">Select Location to Modify:</label>
+            <select id="modify_location_dropdown" name="location_key" required>
+                <option value="">Select a Location</option>
+                <#list locations as location>
+                    <option 
+                        value="${location.key}" 
+                        data-place-name="${location.getPlace()?js_string}" 
+                        data-building-name="${location.getBuilding()?js_string}" 
+                        data-floor-name="${location.getFloor()?js_string}">
+                        ${location.getPlace()}, ${location.getBuilding()}, ${location.getFloor()}
+                    </option>
+                </#list>
+            </select>
+        </p>
+        <p>
+            <label for="modify_place">New Place:</label>
+            <input type="text" id="modify_place" name="place" required>
+        </p>
+        <p>
+            <label for="modify_building">New Building:</label>
+            <input type="text" id="modify_building" name="building" required>
+        </p>
+        <p>
+            <label for="modify_floor">New Floor:</label>
+            <input type="text" id="modify_floor" name="floor" required>
+        </p>
+        <input type="hidden" name="form_input" value="modify_location">
+        <p>
+            <button type="submit" class="form-button">Modify Location</button>
+        </p>
+    </form>
+
+    <hr>
+
+    <!-- Delete Location -->
+    <h2>Delete Location</h2>
+    <form method="post" action="modify_location" class="styled-form">
+        <p>
+            <label for="delete_location_key">Select Location to Delete:</label>
+            <select id="delete_location_key" name="location_key" required>
+                <option value="">Select a Location</option>
+                <#list locations as location>
+                    <option value="${location.key}">
+                        ${location.getPlace()}, ${location.getBuilding()}, ${location.getFloor()}
+                    </option>
+                </#list>
+            </select>
+        </p>
+        <input type="hidden" name="form_input" value="delete_location">
+        <p>
+            <button type="submit" class="form-button" onclick="return confirm('Are you sure you want to delete this location?')">Delete Location</button>
+        </p>
+    </form>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function () {
+    $('#modify_location_dropdown').on('change', function () {
+        const selectedOption = $(this).find(':selected');
+
+        // Extract data from the selected option
+        const placeName = selectedOption.data('place-name') || '';
+        const buildingName = selectedOption.data('building-name') || '';
+        const floorName = selectedOption.data('floor-name') || '';
+
+        // Set values in the form
+        $('#modify_place').val(placeName);
+        $('#modify_building').val(buildingName);
+        $('#modify_floor').val(floorName);
+    });
+});
+</script>
+<link rel="stylesheet" href="style/forms.css">

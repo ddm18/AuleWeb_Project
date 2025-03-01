@@ -1,0 +1,61 @@
+.current_calendar-container {
+    position: relative;
+    width: 100%;
+    height: 500px; /* Adjust the overall height of the container */
+    margin: 20px auto;
+    border: 1px solid #ddd;
+}
+
+.current_calendar {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.current_calendar td {
+    width: 50%;
+    text-align: center;
+    font-weight: bold;
+    border: 1px solid #ddd;
+    height: 5%; /* Reduce the height of the columns */
+    vertical-align: top; /* Align text to the top */
+    position: relative;
+}
+
+.current_events-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+}
+
+.current_event-item {
+    position: absolute;
+    padding: 2px; /* Reduce padding for smaller height */
+    border-radius: 4px;
+    background-color: #f0f8ff;
+    border: 1px solid #000000;
+    text-align: center;
+    white-space: nowrap;
+    font-size: 12px; /* Adjust font size to fit smaller items */
+    height: 20%; /* Set a fixed height for the event items */
+    line-height: 20px; /* Vertically center the text */
+    cursor: pointer;
+}
+
+.started {
+    background-color: #d1e7dd;
+}
+
+.started:hover {
+    background-color: #bcd6cc; /* Slightly darker shade */
+}
+
+.not-started {
+    background-color: #f8d7da;
+}
+
+.not-started:hover {
+    background-color: #e6c1c3; /* Slightly darker shade */
+}

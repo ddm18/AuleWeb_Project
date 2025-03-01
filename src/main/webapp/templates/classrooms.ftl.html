@@ -1,0 +1,67 @@
+<h1>${page_title}</h1>
+
+<!-- Display Classrooms -->
+<h2>Classrooms</h2>
+<ul>
+    <#list classrooms as classroom>
+        <li>${classroom.classroomName} - Capacity: ${classroom.internetSockets}</li>
+    </#list>
+</ul>
+
+<!-- Display Events -->
+<h2>Events</h2>
+<ul>
+    <#list events as event>
+        <li>Event ID: ${event.key}</li>
+    </#list>
+</ul>
+
+<!-- Display Tools -->
+<h2>Tools</h2>
+<ul>
+    <#list tools as tool>
+        <li>Tool ID: ${tool.key}, Name: ${tool.toolName}</li>
+    </#list>
+</ul>
+
+<!-- Display Types -->
+<h2>Types</h2>
+<ul>
+    <#list types as type>
+        <li>Type ID: ${type.key}, Name: ${type.eventTypeName}</li>
+    </#list>
+</ul>
+
+<!-- Display Managers -->
+<h2>Managers</h2>
+<ul>
+    <#list managers as manager>
+        <li>Manager: ${manager.managerName}, Email: ${manager.managerEmail}</li>
+    </#list>
+</ul>
+
+<!-- Display Locations -->
+<h2>Locations</h2>
+<ul>
+    <#list locations as location>
+        <li>Location ID: ${location.key}</li>
+    </#list>
+</ul>
+
+<!-- Display Courses -->
+<h2>Courses</h2>
+<ul>
+    <#list courses as course>
+        <li>Course: ${course.courseName}</li>
+    </#list>
+</ul>
+
+
+
+<!-- Display Classroom Groups -->
+<h2>Classroom Groups</h2>
+<ul>
+    <#list classroomGroups as group>
+        <li>Group Name: ${group.groupName}</li>
+    </#list>
+</ul>

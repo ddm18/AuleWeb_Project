@@ -1,0 +1,72 @@
+<#-- Extract the current time as a string in "HH:mm" format -->
+<#assign currentTimeString = .now?string("HH:mm")>
+
+	<div class="current_calendar-container">
+	    <table class="current_calendar">
+	        <thead></thead>
+	        <tbody>
+	            <tr>
+	                <td id="started-col">Started</td>
+	                <td id="not-started-col">Not Started</td>
+	            </tr>
+	        </tbody>
+	    </table>
+	    
+	    <!-- Events Overlay -->
+	    <#assign started_counter = 0>
+	    <#assign not_started_counter = 0>
+	    <#assign top_started_counter = 0>
+	    <#assign top_not_started_counter = 0>
+	    <div class="current_events-overlay">
+	        <#list events as event>
+	            <!-- Assign the event's start time as a string -->
+	            <#assign eventStartTimeString = event.startTime>
+	
+	            <!-- Convert the times to numbers for comparison -->
+	            <#assign currentTimeInt = currentTimeString?replace(":", "")?number>
+	            <#assign eventStartTimeInt = eventStartTimeString?replace(":", "")?number>
+	
+	            <!-- Determine if the event has started based on the integer comparison -->
+	            <#assign isStarted = eventStartTimeInt <= currentTimeInt>
+	            <#assign started_top = 4.3+21.26*top_started_counter>
+	            <#assign not_started_top = 4.3+21.26*top_not_started_counter>
+	            
+	            <#if isStarted>
+		            
+		            <#if started_counter% 2 == 0>  <!-- se pari -->
+			            <#assign leftPosition = 0>
+			            <#else>
+			            <#assign leftPosition = 25>
+			            <#assign top_started_counter = top_started_counter+1>
+			        </#if>
+			        <#assign started_counter = started_counter+1>
+			        
+			        
+		            <#else>
+		            <#if not_started_counter% 2 == 0>  <!-- se pari -->
+			            <#assign leftPosition = 50>
+			            <#else>
+			            <#assign leftPosition = 75>
+			            <#assign top_not_started_counter = top_not_started_counter+1>
+			        </#if>
+			        <#assign not_started_counter = not_started_counter+1>
+			        
+	            </#if>
+	            
+	
+	            <!-- Overlay the event in the appropriate row -->
+	            <div class="current_event-item ${isStarted?then('started', 'not-started')}" 	            
+	                style="
+	                    top: ${isStarted?then(started_top, not_started_top)}%;
+	                    left: ${leftPosition}%;
+	                    width: 24.6%;
+	                "
+	                onclick="OpenEventDetails(${event.getKey()});"
+	                >
+	                <strong>${event.name!}</strong><br/>
+	                <small>${event.startTime} - ${event.endTime}</small>
+	                <small>${not_started_counter}</small>
+	            </div>
+	        </#list>
+	    </div>
+	</div>

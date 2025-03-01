@@ -1,0 +1,36 @@
+/* Ensure body and html take up the full viewport */
+html, body {
+    height: 100vh; /* Match viewport height exactly */
+    margin: 0; /* Remove extra margin to avoid unnecessary scrolling */
+    padding: 0; /* Remove padding */
+    font-family: Verdana, Arial, Helvetica; /* Retain font styles */
+    font-size: 11pt; /* Retain font size */
+    box-sizing: border-box; /* Include padding and borders in height/width calculations */
+}
+
+/* Main container for header, content, and footer */
+.page-container {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    height: 100%; /* Ensure it fills the full height of the viewport */
+}
+
+/* Header styling */
+header {
+    
+    padding-bottom: 10px;
+}
+
+/* Content styling */
+.content {
+    flex: 1; /* Expand to fill available space */
+    margin-top: 10px; /* Optional spacing below the header */
+}
+
+/* Footer styling */
+footer {
+    text-align: center;
+    padding: 10px 15px;
+    font-size: 10pt; /* Slightly smaller font for the footer */
+    border-top: 0.5px solid #ccc; /* Add a divider above the footer */
+}

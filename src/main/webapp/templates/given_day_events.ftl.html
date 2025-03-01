@@ -1,0 +1,23 @@
+<#if (classroomEventsMap?size>0)>
+	<table id="classroom-events-table" class="clevent-table">
+	    <thead>
+	        <tr>
+	            <th>Classroom</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	        <#list classroomEventsMap?keys as classroomName>
+	            <tr>
+	                <!-- Classroom Name in the first column -->
+	                <td class="classroom-name">${classroomName}</td>
+	
+	                <!-- Each event in its own cell -->
+	                <#assign eventsList = classroomEventsMap[classroomName] />
+	                <#list eventsList as event>
+	                    <td class="event-cell" onclick="OpenEventDetails(${event.getKey()});">${event.name}</td>
+	                </#list>
+	            </tr>
+	        </#list>
+	    </tbody>
+	</table>
+</#if>

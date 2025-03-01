@@ -1,0 +1,17 @@
+<div class="classroom-groups">
+    <h2>Classroom Groups</h2>
+    <div class="group-list">
+        <#list classroomGroups as group>
+            <div class="group-card">
+                <h3>${group.groupName}</h3>
+                <p>
+                    <a href="department?groupName=${group.groupName}&week=0" class="group-link">
+                        Visit ${group.groupName}
+                    </a>
+                </p>
+            </div>
+        </#list>
+    </div>
+</div>
+
+<link rel="stylesheet" href="style/homepage.css">

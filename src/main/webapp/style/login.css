@@ -1,0 +1,111 @@
+/* Page Container for Centering with Reduced Background Space */
+.page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh; /* Use less height than the full viewport */
+    background-color: #f5f5f5; /* Subtle background */
+}
+
+/* Login Container */
+.login-container {
+    width: 100%;
+    max-width: 300px; /* Slightly narrower to reduce horizontal size */
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    text-align: center;
+}
+
+
+
+/* Header Styling */
+.login-container h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333333;
+}
+
+/* Login Info Styling */
+.login-info {
+    font-size: 16px;
+    color: #555555;
+    margin-bottom: 15px;
+}
+
+/* Form Styling */
+.login-form {
+    text-align: left;
+}
+
+/* Input Fields */
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Labels */
+.login-form label {
+    font-size: 14px;
+    color: #333333;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Small Notes */
+.login-form small {
+    font-size: 12px;
+    color: #999999;
+}
+
+/* Login Button */
+.login-button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: #0056b3;
+}
+
+/* Logout Button */
+.logout-button {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #ffffff;
+    background-color: #FF5722;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #e64a19;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .login-container {
+        padding: 15px;
+    }
+
+    .login-container h1 {
+        font-size: 20px;
+    }
+}

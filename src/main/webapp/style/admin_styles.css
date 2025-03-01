@@ -1,0 +1,59 @@
+/* Container for the admin buttons */
+.admin-buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px; /* Space between buttons */
+    margin-bottom: 25px;
+}
+
+/* Style for the admin buttons */
+.admin-button {
+    flex: 1 1 calc(25% - 15px); /* Four buttons per row, accounting for gap */
+    box-sizing: border-box;
+    display: inline-block;
+    padding: 12px 18px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    background-color: #007BFF;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.admin-button:hover {
+    background-color: #0056b3;
+}
+
+/* Form styling */
+form {
+    margin-top: 20px;
+}
+
+input[type="text"] {
+    padding: 7px;
+    font-size: 16px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+label {
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+/* Optional: Responsive tweaks for smaller screens */
+@media (max-width: 768px) {
+    .admin-button {
+        flex: 1 1 calc(50% - 15px); /* Two buttons per row on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-button {
+        flex: 1 1 100%; /* One button per row on very small screens */
+    }
+}

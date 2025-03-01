@@ -1,0 +1,85 @@
+<div class="form-container">
+    <!-- Add New User Form -->
+    <h2>Add New User</h2>
+    <form method="post" action="modify_user" class="styled-form">
+        <input type="hidden" name="form_input" value="add_user">
+        <p>
+            <label for="username_add">Username:</label>
+            <input type="text" id="username_add" name="username" required>
+        </p>
+        <p>
+            <label for="password_add">Password:</label>
+            <input type="password" id="password_add" name="password" required>
+        </p>
+        <button type="submit" class="form-button">Add User</button>
+    </form>
+
+    <hr>
+
+    <!-- Modify Existing User Form -->
+    <h2>Modify Existing User</h2>
+    <form method="post" action="modify_user" class="styled-form">
+        <input type="hidden" name="form_input" value="modify_user">
+        <p>
+            <label for="user_key_modify">Select User:</label>
+            <select id="user_key_modify" name="user_key" required>
+                <option value="">Select a User</option>
+                <#list users as user>
+                    <option 
+                        value="${user.key}" 
+                        data-username="${user.getUsername()?js_string}">
+                        ${user.getUsername()}
+                    </option>
+                </#list>
+            </select>
+        </p>
+        <p>
+            <label for="username_modify">New Username:</label>
+            <input type="text" id="username_modify" name="username" required>
+        </p>
+        <p>
+            <label for="password_modify">New Password:</label>
+            <input type="password" id="password_modify" name="password" required>
+        </p>
+        <button type="submit" class="form-button">Modify User</button>
+    </form>
+
+    <hr>
+
+    <!-- Delete User Form -->
+    <h2>Delete User</h2>
+    <form method="post" action="modify_user" class="styled-form">
+        <input type="hidden" name="form_input" value="delete_user">
+        <p>
+            <label for="user_key_delete">Select User:</label>
+            <select id="user_key_delete" name="user_key" required>
+                <option value="">Select a User</option>
+                <#list users as user>
+                    <option value="${user.key}">
+                        ${user.getUsername()}
+                    </option>
+                </#list>
+            </select>
+        </p>
+        <button type="submit" class="form-button" onclick="return confirm('Are you sure you want to delete this user?')">Delete User</button>
+    </form>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function () {
+    // Listen for changes on the "Modify Existing User" dropdown
+    $('#user_key_modify').on('change', function () {
+        // Get the selected option
+        const selectedOption = $(this).find(':selected');
+
+        // Extract the username from the data-* attribute
+        const username = selectedOption.data('username') || '';
+
+        // Populate the "New Username" field
+        $('#username_modify').val(username);
+    });
+});
+</script>
+
+
+<link rel="stylesheet" href="style/forms.css">

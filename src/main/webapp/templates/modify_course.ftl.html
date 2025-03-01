@@ -1,0 +1,75 @@
+<div class="form-container">
+    <!-- Add New Course Form -->
+    <h2>Add New Course</h2>
+    <form method="post" action="modify_course" class="styled-form">
+        <input type="hidden" name="form_input" value="record_course">
+        <p>
+            <label for="new_course_name">Course Name:</label>
+            <input type="text" id="new_course_name" name="new_course_name" required>
+        </p>
+        <button type="submit" class="form-button">Add Course</button>
+    </form>
+
+    <hr>
+
+    <!-- Update Existing Course Form -->
+    <h2>Update Existing Course</h2>
+    <form method="post" action="modify_course" class="styled-form">
+        <input type="hidden" name="form_input" value="update_course">
+        <p>
+            <label for="course-dropdown">Select Course:</label>
+            <select id="course-dropdown" name="course_id" required>
+                <option value="">-- Select a Course --</option>
+                <#list courses as course>
+                    <option
+                        data-course-name="${course.getCourseName()?js_string}" 
+                        value="${course.getKey()}"
+                    >
+                        ${course.getCourseName()}
+                    </option>
+                </#list>
+            </select>
+        </p>
+        <p>
+            <label for="course-name-field">Course Name:</label>
+            <input type="text" id="course-name-field" name="updated_course_name" required>
+        </p>
+        <button type="submit" class="form-button">Modify Course</button>
+    </form>
+
+    <hr>
+
+    <!-- Delete Course Form -->
+    <h2>Delete Course</h2>
+    <form method="post" action="modify_course" class="styled-form">
+        <input type="hidden" name="form_input" value="delete_course">
+        <p>
+            <label for="course_id_delete">Select Course:</label>
+            <select id="course_id_delete" name="course_id" required>
+                <#list courses as course>
+                    <option value="${course.getKey()}">
+                        ${course.getCourseName()}
+                    </option>
+                </#list>
+            </select>
+        </p>
+        <button type="submit" class="form-button">Delete Course</button>
+    </form>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function () {
+    // Listen for changes on the dropdown
+    $('#course-dropdown').on('change', function () {
+        // Get the selected option
+        const selectedOption = $(this).find(':selected');
+        
+        // Extract course details from data-* attributes
+        const courseName = selectedOption.data('course-name') || '';
+
+        // Populate the form fields
+        $('#course-name-field').val(courseName);
+    });
+});
+</script>
+<link rel="stylesheet" href="style/forms.css">

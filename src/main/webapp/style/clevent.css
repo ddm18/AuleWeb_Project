@@ -1,0 +1,57 @@
+/* Styling for the specific table with ID 'classroom-events-table' */
+#classroom-events-table {
+    width: auto;
+    margin: 20px 0;
+    border-collapse: separate; /* Use 'separate' to allow spacing and rounded corners */
+    border-spacing: 10px; /* Adds spacing between cells */
+    font-family: Arial, sans-serif;
+    text-align: left;
+    border-radius: 10px;
+    table-layout: fixed;
+}
+
+/* Table headers */
+#classroom-events-table th {
+    background-color: #f1f1f1;
+    text-align: center;
+    padding: 10px;
+    border: none; /* Remove borders completely */
+    font-weight: bold;
+    width: 170px;
+    border-radius: 8px;
+}
+
+
+
+/* Table rows and cells */
+#classroom-events-table td {	
+    padding: 10px;    
+    border: none; /* Remove borders completely */
+    white-space: nowrap;    
+    height : 80px;    
+    border-radius: 8px;
+}
+
+#classroom-events-table td:first-child {
+    background-color: #f1f1f1; /* Light gray background for the first column */
+    border-radius: 8px; /* Rounded corners for the first column cells */
+    width: 170px;
+    border: 1px solid black;
+    text-align: center;
+}
+
+#classroom-events-table td:not(:first-child):hover {
+    background-color: #0056b3;
+    cursor: pointer;
+}
+
+#classroom-events-table td:not(:first-child) {
+    background-color: rgba(0, 123, 255, 0.7);
+    border: 1px solid #007bff;
+    color: white;
+    border-radius: 8px; /* Rounded corners for the first column cells */   
+    width: 100px;
+    font-weight: bold;
+    text-align: left;
+    vertical-align: top;
+}

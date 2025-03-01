@@ -1,0 +1,177 @@
+<div class="form-container">
+    <!-- Add New Classroom Form -->
+    <h2>Add New Classroom</h2>
+    <form method="post" action="modify_classroom" class="styled-form">
+        <input type="hidden" name="form_input" value="add_classroom">
+        <p>
+            <label for="classroom_name_add">Classroom Name:</label>
+            <input type="text" id="classroom_name_add" name="classroom_name" required>
+        </p>
+        <p>
+            <label for="capacity_add">Capacity:</label>
+            <input type="number" id="capacity_add" name="capacity" required>
+        </p>
+        <p>
+            <label for="manager_email_add">Manager Email:</label>
+            <input type="email" id="manager_email_add" name="manager_email" required>
+        </p>
+        <p>
+            <label for="electric_sockets_add">Electric Sockets:</label>
+            <input type="number" id="electric_sockets_add" name="electric_sockets" required>
+        </p>
+        <p>
+            <label for="internet_sockets_add">Internet Sockets:</label>
+            <input type="number" id="internet_sockets_add" name="internet_sockets" required>
+        </p>
+        <p>
+            <label for="notes_add">Notes:</label>
+            <textarea id="notes_add" name="notes" rows="3" cols="50"></textarea>
+        </p>
+        <p>
+            <label for="group_id_add">Department:</label>
+            <select id="group_id_add" name="group_id" required>
+                <#list departments as department>
+                    <option value="${department.key}">
+                        ${department.getGroupName()}
+                    </option>
+                </#list>
+            </select>
+        </p>
+        <p>
+            <label>Tools:</label>
+            <#list tools as tool>
+                <div>
+                    <input type="checkbox" id="tool_${tool.key}" name="tool_id" value="${tool.key}">
+                    <label for="tool_${tool.key}">${tool.getToolName()}</label>
+                </div>
+            </#list>
+        </p>
+        <p>
+            <label for="location_id_add">Location:</label>
+            <select id="location_id_add" name="location_id" required>
+                <#list locations as location>
+                    <option value="${location.key}">
+                        ${location.getPlace()} - ${location.getBuilding()} - Floor: ${location.getFloor()}
+                    </option>
+                </#list>
+            </select>
+        </p>
+        <button type="submit" class="form-button">Add Classroom</button>
+    </form>
+
+    <hr>
+
+    <!-- Modify Existing Classroom Form -->
+    <div class="form-container">
+    <!-- Modify Existing Classroom Form -->
+    <h2>Modify Existing Classroom</h2>
+    <form method="post" action="modify_classroom" class="styled-form">
+        <input type="hidden" name="form_input" value="modify_classroom">
+        <p>
+            <label for="classroom_id_modify">Select Classroom:</label>
+            <select id="classroom_id_modify" name="classroom_id" required>
+                <#list classrooms as classroom>
+                    <option 
+                        value="${classroom.key}"
+                        data-classroom-name="${classroom.getClassroomName()?js_string}"
+                        data-capacity="${classroom.getCapacity()}"
+                        data-manager-email="${classroom.getManagerEmail()?js_string}"
+                        data-electric-sockets="${classroom.getElectricSockets()}"
+                        data-internet-sockets="${classroom.getInternetSockets()}"
+                        data-notes="${classroom.getNotes()?js_string}"
+                        data-group-id="${classroom.getGroup().getGroupName()}"
+                    >
+                        ${classroom.getClassroomName()} (Capacity: ${classroom.getCapacity()})
+                    </option>
+                </#list>
+            </select>
+        </p>
+        <p>
+            <label for="classroom_name_modify">New Name:</label>
+            <input type="text" id="classroom_name_modify" name="classroom_name" required>
+        </p>
+        <p>
+            <label for="capacity_modify">New Capacity:</label>
+            <input type="number" id="capacity_modify" name="capacity" required>
+        </p>
+        <p>
+            <label for="manager_email_modify">New Manager Email:</label>
+            <input type="email" id="manager_email_modify" name="manager_email" required>
+        </p>
+        <p>
+            <label for="electric_sockets_modify">New Electric Sockets:</label>
+            <input type="number" id="electric_sockets_modify" name="electric_sockets" required>
+        </p>
+        <p>
+            <label for="internet_sockets_modify">New Internet Sockets:</label>
+            <input type="number" id="internet_sockets_modify" name="internet_sockets" required>
+        </p>
+        <p>
+            <label for="notes_modify">New Notes:</label>
+            <textarea id="notes_modify" name="notes" rows="3" cols="50"></textarea>
+        </p>
+        <p>
+            <label for="group_id_modify">New Department:</label>
+            <select id="group_id_modify" name="group_id" required>
+                <#list departments as department>
+                    <option value="${department.key}">
+                        ${department.getGroupName()}
+                    </option>
+                </#list>
+            </select>
+        </p>
+        <button type="submit" class="form-button">Modify Classroom</button>
+    </form>
+</div>
+
+
+    <hr>
+
+    <!-- Delete Classroom Form -->
+    <h2>Delete Classroom</h2>
+    <form method="post" action="modify_classroom" class="styled-form">
+        <input type="hidden" name="form_input" value="delete_classroom">
+        <p>
+            <label for="classroom_id_delete">Select Classroom:</label>
+            <select id="classroom_id_delete" name="classroom_id" required>
+                <#list classrooms as classroom>
+                    <option value="${classroom.key}">
+                        ${classroom.getClassroomName()} (Capacity: ${classroom.getCapacity()})
+                    </option>
+                </#list>
+            </select>
+        </p>
+        <button type="submit" class="form-button">Delete Classroom</button>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        const classroomDropdown = $('#classroom_id_modify');
+
+        classroomDropdown.on('change', function () {
+            // Get the selected option
+            const selectedOption = $(this).find(':selected');
+
+            // Extract classroom details from data-* attributes
+            const classroomName = selectedOption.data('classroom-name') || '';
+            const capacity = selectedOption.data('capacity') || '';
+            const managerEmail = selectedOption.data('manager-email') || '';
+            const electricSockets = selectedOption.data('electric-sockets') || '';
+            const internetSockets = selectedOption.data('internet-sockets') || '';
+            const notes = selectedOption.data('notes') || '';
+            const groupId = selectedOption.data('group-id') || '';
+
+            // Populate the fields
+            $('#classroom_name_modify').val(classroomName);
+            $('#capacity_modify').val(capacity);
+            $('#manager_email_modify').val(managerEmail);
+            $('#electric_sockets_modify').val(electricSockets);
+            $('#internet_sockets_modify').val(internetSockets);
+            $('#notes_modify').val(notes);
+            $('#group_id_modify').val(groupId);
+        });
+    });
+</script>
+
+<link rel="stylesheet" href="style/forms.css">

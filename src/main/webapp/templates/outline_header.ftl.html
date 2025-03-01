@@ -1,0 +1,21 @@
+<div class="header-row">
+    <h1>${page_title}</h1>
+    <p><a href="homepage" class="homepage-link">Homepage</a></p>
+    <div class="icon-wrapper">
+        <i class="fa-solid fa-user fa-3x"></i>
+        <div id="dropdown" class="dropdown">
+            <#if logininfo??>
+                <p><a href="admin_main">admin page</a></p>
+                <p><a href="logout?referrer=${thispageurl?url}">logout</a></p>
+            <#else>
+                <a href="login?referrer=${thispageurl?url}">login</a>
+            </#if>
+        </div>
+    </div>
+</div>
+
+
+<link rel="stylesheet" href="style/admin_dropdown.css">
+<link rel="stylesheet" href="style/header.css">
+<script src="./javascript/admin_dropdown.js"></script>
+<script src="https://kit.fontawesome.com/259ef46d34.js" crossorigin="anonymous"></script>

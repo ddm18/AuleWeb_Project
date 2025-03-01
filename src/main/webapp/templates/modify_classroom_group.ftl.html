@@ -1,0 +1,79 @@
+<div class="form-container">
+    <!-- Add New Classroom Group -->
+    <h2>Add New Classroom Group</h2>
+    <form method="post" action="modify_classroom_group" class="styled-form">
+        <p>
+            <label for="add_group_name">New Department Name:</label>
+            <input type="text" id="add_group_name" name="group_name" required>
+        </p>
+        <input type="hidden" name="form_input" value="add_classroom_group">
+        <p>
+            <button type="submit" class="form-button">Add Classroom Group</button>
+        </p>
+    </form>
+
+    <hr>
+
+    <!-- Modify Existing Classroom Group -->
+    <h2>Modify Existing Classroom Group</h2>
+    <form method="post" action="modify_classroom_group" class="styled-form">
+        <p>
+            <label for="modify_group_dropdown">Select Department to Modify:</label>
+            <select id="modify_group_dropdown" name="department_key" required>
+                <option value="">Select a Department</option>
+                <#list departments as department>
+                    <option 
+                        value="${department.key}" 
+                        data-group-name="${department.getGroupName()?js_string}">
+                        ${department.getGroupName()}
+                    </option>
+                </#list>
+            </select>
+        </p>
+        <p>
+            <label for="modify_group_name">New Department Name:</label>
+            <input type="text" id="modify_group_name" name="group_name" required>
+        </p>
+        <input type="hidden" name="form_input" value="modify_classroom_group">
+        <p>
+            <button type="submit" class="form-button">Modify Classroom Group</button>
+        </p>
+    </form>
+
+    <hr>
+
+    <!-- Delete Existing Classroom Group -->
+    <h2>Delete Classroom Group</h2>
+    <form method="post" action="modify_classroom_group" class="styled-form">
+        <p>
+            <label for="delete_group_dropdown">Select Department to Delete:</label>
+            <select id="delete_group_dropdown" name="department_key" required>
+                <option value="">Select a Department</option>
+                <#list departments as department>
+                    <option value="${department.key}">${department.getGroupName()}</option>
+                </#list>
+            </select>
+        </p>
+        <input type="hidden" name="form_input" value="delete_classroom_group">
+        <p>
+            <button type="submit" class="form-button" onclick="return confirm('Are you sure you want to delete this department?')">Delete Classroom Group</button>
+        </p>
+    </form>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function () {
+    // Listen for changes on the dropdown
+    $('#modify_group_dropdown').on('change', function () {
+        // Get the selected option
+        const selectedOption = $(this).find(':selected');
+        
+        // Extract department name from data-* attribute
+        const groupName = selectedOption.data('group-name') || '';
+
+        // Populate the form field with the current department name
+        $('#modify_group_name').val(groupName);
+    });
+});
+</script>
+<link rel="stylesheet" href="style/forms.css">

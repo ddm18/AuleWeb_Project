@@ -1,0 +1,178 @@
+<div class="form-container">
+    <!-- Add New Event Form -->
+    <h2>Add New Event</h2>
+    <form method="post" action="modify_event" class="styled-form">
+        <input type="hidden" name="form_input" value="add_event">
+        <p>
+            <label for="event_name_add">Event Name:</label>
+            <input type="text" id="event_name_add" name="event_name" required>
+        </p>
+        <p>
+            <label for="event_date_add">Event Date:</label>
+            <input type="date" id="event_date_add" name="event_date" required>
+        </p>
+        <p>
+            <label for="start_time_add">Start Time:</label>
+            <input type="time" id="start_time_add" name="start_time" required>
+        </p>
+        <p>
+            <label for="end_time_add">End Time:</label>
+            <input type="time" id="end_time_add" name="end_time" required>
+        </p>
+        <p>
+            <label for="description_add">Description:</label>
+            <textarea id="description_add" name="description" rows="4"></textarea>
+        </p>
+        <p>
+            <label for="classroom_id_add">Select Classroom:</label>
+            <select id="classroom_id_add" name="classroom_id" required>
+                <#list classrooms as classroom>
+                    <option value="${classroom.key}">${classroom.getClassroomName()}</option>
+                </#list>
+            </select>
+        </p>
+        <p>
+            <label for="event_type_id_add">Select Event Type:</label>
+            <select id="event_type_id_add" name="event_type_id" required>
+                <#list eventTypes as type>
+                    <option value="${type.key}" data-event-type="${type.getEventTypeName()?lower_case}">
+                        ${type.getEventTypeName()}
+                    </option>
+                </#list>
+            </select>
+        </p>
+        <p id="course_field_add" style="display: none;">
+            <label for="course_id_add">Select Course (Optional):</label>
+            <select id="course_id_add" name="course_id">
+                <option value="" selected>None</option>
+                <#list courses as course>
+                    <option value="${course.key}">${course.getCourseName()}</option>
+                </#list>
+            </select>
+        </p>
+        <p>
+            <label for="event_manager_id_add">Select Event Manager:</label>
+            <select id="event_manager_id_add" name="event_manager_id" required>
+                <#list eventManagers as manager>
+                    <option value="${manager.key}">${manager.getManagerName()}</option>
+                </#list>
+            </select>
+        </p>
+        <p>
+            <label for="event_recurrence">Select Recurrence:</label>
+            <select id="event_recurrence" name="event_recurrence" required>
+                <option value="False">No Recurrence</option>
+                <option value="Daily" data-recurrent-check="True">Daily</option>
+                <option value="Weekly" data-recurrent-check="True">Weekly</option>
+                <option value="Monthly" data-recurrent-check="True">Monthly</option>
+            </select>
+        </p>
+        <p id="recurrence_end_field" style="display: none;">
+            <label for="recurrence_end">End Recurrence:</label>
+            <input type="date" id="recurrence_end" name="recurrence_end">
+        </p>
+        <button type="submit" class="form-button">Add Event</button>
+    </form>
+
+    <hr>
+
+    <h2>Modify or Delete Existing Event</h2>
+    <form id="event-navigation-form" class="styled-form">
+        <p>
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date" name="start_date" required>
+        </p>
+        <p>
+            <label for="end_date">End Date:</label>
+            <input type="date" id="end_date" name="end_date" required>
+        </p>
+        <p>
+            <label for="department_dropdown">Select Department:</label>
+            <select id="department_dropdown" name="department_name" required>
+                <option value="">-- Select a Department --</option>
+                <#list departments as department>
+                    <option value="${department.getGroupName()?js_string}">
+                        ${department.getGroupName()}
+                    </option>
+                </#list>
+            </select>
+        </p>
+        <p>
+            <button type="button" id="navigate_to_modify_event_secondary" class="form-button">Add or Delete Events</button>
+        </p>
+    </form>
+</div>
+
+<div id="dynamic-content"></div>
+
+<script type="text/javascript">
+$(document).ready(function () {
+    const courseField = $('#course_field_add');
+    const eventTypeDropdown = $('#event_type_id_add');
+    const RecurrenceField = $('#event_recurrence');
+    const RecurrenceEndField = $('#recurrence_end_field');
+    
+    const eventTypesForCourses = ['lecture', 'final exam', 'partial exam'];
+
+    function toggleCourseField() {
+        const selectedType = eventTypeDropdown.find(':selected').data('event-type');
+        if (eventTypesForCourses.includes(selectedType)) {
+            courseField.show();
+            $('#course_id_add').attr('required', true);
+        } else {
+            courseField.hide();
+            $('#course_id_add').removeAttr('required');
+        }
+    }
+
+    function toggleRecurrenceField() {
+        const selectedOption = RecurrenceField.find(':selected');
+        const isRecurrent = selectedOption.data('recurrent-check');
+
+        if (isRecurrent === "True") {
+            RecurrenceEndField.show();
+        } else {
+            RecurrenceEndField.hide();
+        }
+    }
+
+    eventTypeDropdown.on('change', toggleCourseField);
+    RecurrenceField.on('change', toggleRecurrenceField);
+
+    toggleCourseField();
+    toggleRecurrenceField();
+
+    $('#navigate_to_modify_event_secondary').on('click', function () {
+        const startDate = $('#start_date').val();
+        const endDate = $('#end_date').val();
+        const departmentName = $('#department_dropdown').val();
+
+        if (!startDate || !endDate || !departmentName) {
+            alert('All fields are required.');
+            return;
+        }
+
+        const queryParams = new URLSearchParams({
+            start_date: startDate,
+            end_date: endDate,
+            department_name: departmentName,
+        });
+
+        fetch(`modify_event_secondary?` + queryParams.toString())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(html => {
+                $('#dynamic-content').html(html);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                alert('Failed to load content. Please try again later.');
+            });
+    });
+});
+</script>
+<link rel="stylesheet" href="style/forms.css">
