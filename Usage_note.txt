@@ -1,5 +1,6 @@
 A localhost mysql (or external by modifying the project) on port 3306
 schema such as the one described in the pdf must be created.
+The access details in web.xml must be updated to make this project work.
 The following code is to create that in mysql:
 
 CREATE DATABASE `AuleWeb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
